@@ -2,6 +2,11 @@
 
 <ul>
   <% @projects.each do |project| %>
-    <li><h3><%= project.project_name %></h3></li>
+    <li><h3><a href="<%= project_path(project) %>"><%= project.project_name %></a></h3></li> 
+    
+    <%= link_to "Destroy", project_path(project), data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                  } %>
   <% end %>
 </ul>
