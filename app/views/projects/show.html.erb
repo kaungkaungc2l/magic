@@ -4,18 +4,23 @@
 <turbo-frame id="tasks">
   <ul id="tasks_list">
     <% @project.tasks.each do |task| %>
-      <li id="<%= dom_id(task) %>">
-        <%= task.title %> (<%= task.status %>)
-        <%= link_to "Destroy", project_task_path(@project, task), data: {
-                        turbo_method: :delete,
-                        turbo_confirm: "Are you sure?"
-                    } %>
-      </li>
+      <turbo-frame id="<%= dom_id(task) %>">
+        <li>
+          <%= task.title %> (<%= task.status %>)
+
+          <%= link_to "Destroy", project_task_path(@project, task), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+
+          <% unless task.status == "done" %>
+            <%= button_to "Complete", complete_project_task_path(@project, task), method: :patch, form: { data: { turbo_frame: dom_id(task) } } %>
+          <% end %>
+        </li>
+      </turbo-frame>
     <% end %>
   </ul>
 </turbo-frame>
 
-
 <turbo-frame id="new_task">
+  <br>
+  <h2>Add New Task</h2>
   <%= render partial: "tasks/form", locals: { project: @project, task: Task.new } %>
 </turbo-frame>

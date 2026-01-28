@@ -22,6 +22,16 @@ class TasksController < ApplicationController
     @task.destroy
   end
 
+  def complete
+  @task = @project.tasks.find(params[:id])
+  @task.update(status: "done")
+
+  respond_to do |format|
+    format.turbo_stream
+    format.html { redirect_to @project }
+  end
+end
+
   private
 
   def set_project
