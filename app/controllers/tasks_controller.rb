@@ -1,53 +1,34 @@
 class TasksController < ApplicationController
-    def index
-      @project = Project.find(params[:project_id])
-      @tasks = @project.tasks
-    end
+  before_action :set_project
 
-    def show
-      @project = Project.find(params[:project_id])
-      @task = @project.tasks.find(params[:id])
-    end
+  def create
+    @task = @project.tasks.build(task_params)
 
-    def new
-      @project = Project.find(params[:project_id])
-      @task = @project.tasks.new
-    end
-    
-    def create
-      @project = Project.find(params[:project_id])
-      @task = @project.tasks.new(task_params)
-      if @task.save
-        redirect_to project_task_path(@project, @task)
+    if @task.save
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to @project, notice: "Task created!" }
+      end
     else
-        render :new
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("new_task", partial: "tasks/form", locals: { project: @project, task: @task }) }
+        format.html { render "projects/show", status: :unprocessable_entity }
       end
     end
+  end
 
-    def edit
-      @project = Project.find(params[:project_id])
-      @task = @project.tasks.find(params[:id])
-    end
+  def destroy
+    @task = @project.tasks.find(params[:id])
+    @task.destroy
+  end
 
-    def update
-      @project = Project.find(params[:project_id])
-      @task = @project.tasks.find(params[:id])
-      if @task.update(task_params)
-        redirect_to project_task_path(@project, @task)
-      else
-        render :edit
-      end
-    end
+  private
 
-    def destroy
-      @project = Project.find(params[:project_id])
-      @task = @project.tasks.find(params[:id])
-      @task.destroy
-      redirect_to project_tasks_path(@project)
-    end
+  def set_project
+    @project = Project.find(params[:project_id])
+  end
 
-    private
-    def task_params
-        params.require(:task).permit(:title, :description, :status)
-    end
+  def task_params
+    params.require(:task).permit(:title, :status)
+  end
 end

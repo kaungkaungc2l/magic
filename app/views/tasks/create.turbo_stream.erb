@@ -1,0 +1,13 @@
+<%= turbo_stream.append "tasks_list" do %>
+  <li id="<%= dom_id(@task) %>">
+    <%= @task.title %> (<%= @task.status %>)
+    <%= link_to "Destroy", project_task_path(@project, @task), data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                } %>
+  </li>
+<% end %>
+
+<%= turbo_stream.replace "new_task" do %>
+  <%= render partial: "tasks/form", locals: { project: @project, task: Task.new } %>
+<% end %>
