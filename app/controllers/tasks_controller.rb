@@ -18,8 +18,16 @@ class TasksController < ApplicationController
   end
 
   def destroy
-    @task = @project.tasks.find(params[:id])
+    @task = @project.tasks.find_by(id: params[:id])
+    return unless @task
+
+    task_dom_id = "task_#{@task.id}"
     @task.destroy
+
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: turbo_stream.remove(task_dom_id) }
+      format.html { redirect_to @project }
+    end
   end
 
   def complete
