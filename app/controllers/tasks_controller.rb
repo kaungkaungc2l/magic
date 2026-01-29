@@ -30,15 +30,16 @@ class TasksController < ApplicationController
     end
   end
 
-  def complete
-  @task = @project.tasks.find(params[:id])
-  @task.update(status: "done")
 
-  respond_to do |format|
-    format.turbo_stream
-    format.html { redirect_to @project }
+  def complete
+    @task = @project.tasks.find(params[:id])
+    @task.update(status: "done")
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to @project }
+    end
   end
-end
 
   private
 

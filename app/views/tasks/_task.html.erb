@@ -2,15 +2,14 @@
   <li>
     <%= task.title %> (<%= task.status %>)
 
-    <%= link_to "Destroy", project_task_path(task.project, task), data: {
-                    turbo_method: :delete,
-                    turbo_confirm: "Are you sure?"
-                } %>
+    <%= link_to "Destroy", project_task_path(task.project, task),
+          data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
 
-    <% unless task.status == "completed" %>
-      <%= button_to "Complete", complete_project_task_path(task.project, task),
-                    method: :patch,
-                    form: { data: { turbo_frame: dom_id(task) } } %>
+    <% unless task.status == "done" %>
+      <%= button_to "Complete",
+            complete_project_task_path(task.project, task),
+            method: :patch,
+            form: { data: { turbo_frame: dom_id(task) } } %>
     <% end %>
   </li>
 </turbo-frame>
