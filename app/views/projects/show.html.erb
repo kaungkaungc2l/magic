@@ -1,26 +1,20 @@
 <h1><%= @project.project_name %></h1>
 <p><%= @project.description %></p>
 
-<turbo-frame id="tasks">
+<%= turbo_frame_tag "tasks" do %>
   <ul id="tasks_list">
-    <% @project.tasks.each do |task| %>
-      <turbo-frame id="<%= dom_id(task) %>">
-        <li>
-          <%= task.title %> (<%= task.status %>)
+    <% # First: pending or in-progress tasks %>
+    <%= render @project.tasks.reject { |t| t.status == "done" } %>
 
-          <%= link_to "Destroy", project_task_path(@project, task), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
-
-          <% unless task.status == "done" %>
-            <%= button_to "Complete", complete_project_task_path(@project, task), method: :patch, form: { data: { turbo_frame: dom_id(task) } } %>
-          <% end %>
-        </li>
-      </turbo-frame>
+    <% done_tasks = @project.tasks.select { |t| t.status == "done" } %>
+    <% if done_tasks.any? %>
+      <%= render done_tasks %>
     <% end %>
   </ul>
-</turbo-frame>
+<% end %>
 
-<turbo-frame id="new_task">
+<%= turbo_frame_tag "new_task" do %>
   <br>
   <h2>Add New Task</h2>
-  <%= render partial: "tasks/form", locals: { project: @project, task: Task.new } %>
-</turbo-frame>
+  <%= render "tasks/form", project: @project, task: Task.new %>
+<% end %>
