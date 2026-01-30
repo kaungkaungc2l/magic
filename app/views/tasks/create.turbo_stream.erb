@@ -1,6 +1,6 @@
-<%= turbo_stream.append "tasks" do %>
-  <%= render @task %>   <!-- renders _task.html.erb -->
-<% end %>
+<%= turbo_stream.prepend "active_tasks" do %>
+    <%= render partial: "tasks/task", locals: { task: @task } %>
+  <% end %>
 
 <%= turbo_stream.replace "new_task" do %>
   <%= render "tasks/form", project: @project, task: Task.new %>
