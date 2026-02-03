@@ -2,22 +2,34 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
+  username: kaungkaung
+  password: kaung@c2l
+  host: localhost
 
 development:
   <<: *default
   database: test_rails_kaungkaung_development
-  username: kaungkaung
-  password: kaung@c2l
-  host: localhost
 
 test:
   <<: *default
   database: test_rails_kaungkaung_test
-  username: kaungkaung
-  password: kaung@c2l
-  host: localhost
 
 production:
-  <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
+  primary:
+    <<: *default
+    database: test_rails_kaungkaung_production
+
+  cache:
+    <<: *default
+    database: test_rails_kaungkaung_production_cache
+    migrations_paths: db/cache_migrate
+
+  queue:
+    <<: *default
+    database: test_rails_kaungkaung_production_queue
+    migrations_paths: db/queue_migrate
+
+  cable:
+    <<: *default
+    database: test_rails_kaungkaung_production_cable
+    migrations_paths: db/cable_migrate
