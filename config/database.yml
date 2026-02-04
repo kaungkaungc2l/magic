@@ -1,28 +1,29 @@
 default: &default
-  adapter: postgresql  
+  adapter: postgresql
   encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: postgres
-  password: gTAZjzAnFMfaRkatAlJLDjfMUKWklljx
-  host: postgres.railway.internal
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
 
 development:
   <<: *default
-  database: myapp_development
+  database: test_rails_kaungkaung_development
 
 test:
   <<: *default
-  database: myapp_test
+  database: test_rails_kaungkaung_test
 
 production:
   primary:
+    <<: *default
     url: <%= ENV["DATABASE_URL"] %>
 
   cable:
+    <<: *default
     url: <%= ENV["DATABASE_URL"] %>
 
   queue:
+    <<: *default
     url: <%= ENV["DATABASE_URL"] %>
 
   cache:
+    <<: *default
     url: <%= ENV["DATABASE_URL"] %>
