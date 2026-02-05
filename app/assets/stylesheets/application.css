@@ -27,6 +27,13 @@ li {
   color: #888;               
 }
 
-.done-task .task-title {
+.done-task .done-task-text{
   text-decoration: line-through; 
+}
+
+.done-task .task-title .done-badge {
+  text-decoration: none;
+  color: green;
+  font-weight: bold;
+  margin-left: 8px;
 }
