@@ -1,4 +1,8 @@
-<h1><%= @project.project_name %></h1>
+<div style="display: flex; justify-content: space-between; align-items: center">
+  <h1><%= @project.project_name %></h1>
+  <%= link_to "Back to Projects", projects_path %>
+</div>
+
 <p><%= @project.description %></p>
 
 <%= turbo_frame_tag "tasks" do %>
