@@ -1,0 +1,15 @@
+<h2>Add New Task</h2>
+
+<%= form_with model: [project, task], local: false do |f| %>
+  <p>
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </p>
+
+  <p>
+    <%= f.label :status %><br>
+    <%= f.select :status, Task.statuses.keys.reject { |s| s == "done" } %>
+  </p>
+
+  <%= f.submit "Create Task" %>
+<% end %>

@@ -1,0 +1,35 @@
+<h1>Projects</h1>
+
+<div class="projects-list">
+  <ul>
+    <% @projects.each do |project| %>
+      <% total_tasks = project.tasks.count %>
+      <% done_tasks_count = project.tasks.where(status: "done").count %>
+
+      <li>
+        <div class="project-item">
+            <%= link_to project.project_name, project_path(project) %>
+        </div>
+        
+
+        <div class="project-actions">
+          <%= link_to "Destroy", project_path(project), data: {
+                turbo_method: :delete,
+                turbo_confirm: "Are you sure?"
+              } %>
+        </div>
+
+        <div class="project-done">
+          <% if total_tasks.zero? %>
+            No tasks yet
+          <% else %>
+            Done tasks: <%= ((done_tasks_count.to_f / total_tasks) * 100).round %>%
+          <% end %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</div>
+
+<br>
+<h2><%= link_to "Add Project", new_project_path %></h2>

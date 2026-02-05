@@ -1,0 +1,18 @@
+  <li id="<%= dom_id(task) %>" class="task-item <%= 'done-task' if task.status == 'done' %>">
+  <div class="task-title"><%= task.title %></div>
+  <div class="task-status"><%= task.status.titleize %></div>
+  <div class="task-actions flex gap-2">
+    <% unless task.status == "done" %>
+      <%= button_to "Complete",
+            complete_project_task_path(task.project, task),
+            method: :patch,
+            data: { turbo_frame: dom_id(task) },
+            class: "task-btn complete-btn" %>
+    <% end %>
+
+    <%= link_to "Destroy",
+          project_task_path(task.project, task),
+          data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+          class: "task-btn destroy-btn" %>
+  </div>
+</li>
