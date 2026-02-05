@@ -27,7 +27,7 @@ li {
   color: #888;               
 }
 
-.done-task .done-task-text{
+.done-task .task-title-text{
   text-decoration: line-through; 
 }
 

@@ -1,6 +1,6 @@
   <li id="<%= dom_id(task) %>" class="task-item <%= 'done-task' if task.status == 'done' %>">
   <div class="task-title">
-    <span class="done-task-text"><%= task.title %></span>
+    <span class="task-title-text"><%= task.title %></span>
 
     <% if task.status == "done" %>
       <span class="done-badge"> (Well Done Son)</span>
