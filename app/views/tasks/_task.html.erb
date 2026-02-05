@@ -1,5 +1,11 @@
   <li id="<%= dom_id(task) %>" class="task-item <%= 'done-task' if task.status == 'done' %>">
-  <div class="task-title"><%= task.title %></div>
+  <div class="task-title">
+    <span class="task-title-text"><%= task.title %></span>
+
+    <% if task.status == "done" %>
+      <span class="done-badge"> (Well Done Son)</span>
+    <% end %>
+  </div>
   <div class="task-status"><%= task.status.titleize %></div>
   <div class="task-actions flex gap-2">
     <% unless task.status == "done" %>
